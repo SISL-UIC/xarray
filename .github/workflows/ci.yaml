@@ -26,11 +26,11 @@ jobs:
       id: detect-trigger
       with:
         keyword: '[skip-ci]'
-    timeout-minutes: 12
+    timeout-minutes: 15
   cache-pixi-lock:
     needs: detect-ci-trigger
-    if: ${{ !cancelled() && (needs.detect-ci-trigger.outputs.triggered == 'false')
-      }}
+    if: ${{ !cancelled() && (!cancelled() && (needs.detect-ci-trigger.outputs.triggered
+      == 'false')) }}
     runs-on: self-hosted
     outputs:
       cache-key: ${{ steps.pixi-lock.outputs.cache-key }}
@@ -44,7 +44,7 @@ jobs:
       with:
         name: pixi-lock
         path: pixi.lock
-    timeout-minutes: 12
+    timeout-minutes: 15
   test:
     name: ${{ matrix.os }} | ${{ matrix.pixi-env }}${{ matrix.pytest-addopts && format('
       ({0})', matrix.pytest-addopts) || '' }}
@@ -165,8 +165,8 @@ jobs:
         env_vars: RUNNER_OS,PYTHON_VERSION
         name: codecov-umbrella
         fail_ci_if_error: false
-    timeout-minutes: 12
-    if: ${{ !cancelled() }}
+    timeout-minutes: 15
+    if: ${{ !cancelled() && (!cancelled()) }}
   event_file:
     name: Event File
     runs-on: self-hosted
@@ -177,7 +177,7 @@ jobs:
       with:
         name: Event File
         path: ${{ github.event_path }}
-    timeout-minutes: 12
+    timeout-minutes: 15
 'on':
   push:
     branches:
