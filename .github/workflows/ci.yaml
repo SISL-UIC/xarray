@@ -29,8 +29,8 @@ jobs:
     timeout-minutes: 15
   cache-pixi-lock:
     needs: detect-ci-trigger
-    if: ${{ !cancelled() && (!cancelled() && (needs.detect-ci-trigger.outputs.triggered
-      == 'false')) }}
+    if: ${{ !cancelled() && (!cancelled() && (!cancelled() && (needs.detect-ci-trigger.outputs.triggered
+      == 'false'))) }}
     runs-on: self-hosted
     outputs:
       cache-key: ${{ steps.pixi-lock.outputs.cache-key }}
@@ -166,7 +166,7 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: false
     timeout-minutes: 15
-    if: ${{ !cancelled() && (!cancelled()) }}
+    if: ${{ !cancelled() && (!cancelled() && (!cancelled())) }}
   event_file:
     name: Event File
     runs-on: self-hosted
